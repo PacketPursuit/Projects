@@ -13,7 +13,7 @@ import sys
 import argparse
 import matplotlib.pyplot as plt
 
-# Input the IP address and CIDR notation
+# Input the IP addess and CIDR notation
 def get_ip_info(ip_str):
     try:
         # Parse the IP address and CIDR notation
@@ -42,7 +42,7 @@ def display_results(results):
         print(f"{key}: {value}")
     print("-" * 40)
 
-# Main execution block
+# Main
 if __name__ == "__main__":
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="IP Subnet Calculator")
